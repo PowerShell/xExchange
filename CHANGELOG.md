@@ -1,6 +1,7 @@
 # Change log for xExchange
 
 ## Unreleased
+- Add workaround for buggy Test-Path cmdlet (e.g. if working with mounted ISO files)
 
 - Added xExchAddressList ressource
 - Added xExchSendConnector resource

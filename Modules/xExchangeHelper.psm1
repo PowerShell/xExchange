@@ -468,6 +468,10 @@ function Get-SetupExeVersion
     $version = $null
 
     # Get Exchange setup.exe version
+
+    # Run Get-PSDrive before Test-Path due to buggy Test-Path cmdlet (e.g. if you use an mounted ISO image)
+    Get-PSDrive > $null
+
     if (Test-Path -Path $Path -ErrorAction SilentlyContinue)
     {
         $setupexeVersionInfo = (Get-ChildItem -Path $Path).VersionInfo
