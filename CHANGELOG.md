@@ -1,6 +1,7 @@
 # Change log for xExchange
 
 ## Unreleased
+- Remove check for Windows Failover-Clustering role before adding a new DAG member
 
 - Added xExchAddressList ressource
 - Added xExchSendConnector resource

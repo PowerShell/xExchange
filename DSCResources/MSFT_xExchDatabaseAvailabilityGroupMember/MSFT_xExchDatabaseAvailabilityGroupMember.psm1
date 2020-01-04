@@ -104,14 +104,8 @@ function Set-TargetResource
 
     $failoverClusteringRole = Get-WindowsFeature -Name Failover-Clustering -ErrorAction SilentlyContinue
 
-    # Make sure the Failover-Clustering role is installed before trying to add the member to the DAG
-    if ($null -eq $failoverClusteringRole -or !$failoverClusteringRole.Installed)
-    {
-        Write-Error -Message 'The Failover-Clustering role must be fully installed before the server can be added to the cluster.'
-        return
-    }
     # Force a reboot if the cluster is in an InstallPending state
-    elseif ($failoverClusteringRole.InstallState -like 'InstallPending')
+    if ($failoverClusteringRole.InstallState -like 'InstallPending')
     {
         Write-Warning -Message 'A reboot is required to finish installing the Failover-Clustering role. This must occur before the server can be added to the DAG.'
         Set-DSCMachineStatus -NewDSCMachineStatus 1
