@@ -7,6 +7,12 @@ For older change log history see the [historic changelog](HISTORIC_CHANGELOG.md)
 
 ## [Unreleased]
 
+### Changed
+
+- xExchange
+  - Fixing the Get-TargetResource function in xExchAcceptedDomain.
+  - Setting Pester version to 4.10.1, since changes in the Unit Tests are reuquired
+  in order for Pester 5 to work properly.
 ## [1.32.0] - 2020-05-13
 
 ### Changed

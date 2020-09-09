@@ -56,7 +56,7 @@ try
                 AddressBookEnabled = [System.Boolean] $true
                 DomainName         = [System.String] 'fakedomain.com'
                 DomainType         = [System.String] 'Authoritative'
-                MakeDefault        = [System.Boolean] $false
+                Default        = [System.Boolean] $false
                 MatchSubDomains    = [System.Boolean] $false
                 Name               = [System.String] 'fakedomain.com'
             }
