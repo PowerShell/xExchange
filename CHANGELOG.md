@@ -20,6 +20,7 @@ For older change log history see the [historic changelog](HISTORIC_CHANGELOG.md)
   - Change Sampler reference to 0.109.1
     Sampler 0.110.1 was released and is a breaking change,
     so we need to pin 0.109.1.
+  - Add the function Remove-RemoteExchangeSession
 
 ## [1.32.0] - 2020-05-13
 

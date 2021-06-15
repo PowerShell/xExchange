@@ -12,7 +12,7 @@ function Get-ExistingRemoteExchangeSession
     [OutputType([System.Management.Automation.Runspaces.PSSession])]
     param ()
 
-    $session = Get-PSSession -Name 'DSCExchangeSession' -ErrorAction SilentlyContinue
+    $session = Get-PSSession -Name "DSCExchangeSession" -ErrorAction SilentlyContinue
 
     # Attempt to reuse the session if we found one
     if ($null -ne $session)
@@ -23,12 +23,28 @@ function Get-ExistingRemoteExchangeSession
         }
         else # Session is in an unexpected state. Remove it so we can rebuild it
         {
-            Remove-RemoteExchangeModule
+            # Remove-RemoteExchangeModule
+            Remove-RemoteExchangeSession
             $session = $null
         }
     }
 
     return $session
+}
+
+#Removes any Remote Sessions that have been setup by us
+function Remove-RemoteExchangeSession
+{
+    [CmdletBinding()]
+    param ()
+
+    $session = Get-PSSession -Name "DSCExchangeSession" -ErrorAction SilentlyContinue
+
+    if ($session -ne $null)
+    {
+        Write-Verbose "Removing existing remote Powershell sessions"
+        Get-PSSession -Name "DSCExchangeSession" -ErrorAction SilentlyContinue | Remove-PSSession
+    }
 }
 
 <#

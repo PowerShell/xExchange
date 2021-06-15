@@ -129,7 +129,7 @@ if ($null -ne $adModule)
                     AutoDagTotalNumberOfServers          = 2
                     AutoDagTotalNumberOfDatabases        = 2
                     AutoDagVolumesRootFolderPath         = 'C:\ExchangeVolumes'
-                    DatabaseAvailabilityGroupIpAddresses = '192.168.1.99', '192.168.2.99'
+                    DatabaseAvailabilityGroupIpAddresses = '255.255.255.255'
                     DatacenterActivationMode             = 'DagOnly'
                     DomainController                     = $dcToTestAgainst
                     ManualDagNetworkConfiguration        = $true
@@ -137,7 +137,7 @@ if ($null -ne $adModule)
                     NetworkEncryption                    = 'InterSubnetOnly'
                     ReplayLagManagerEnabled              = $true
                     SkipDagValidation                    = $true
-                    WitnessDirectory                     = 'C:\FSW'
+                    WitnessDirectory                     = 'C:\Witness'
                     WitnessServer                        = $witness1
                 }
 
@@ -156,16 +156,16 @@ if ($null -ne $adModule)
                     NetworkCompression               = 'Enabled'
                     NetworkEncryption                = 'InterSubnetOnly'
                     ReplayLagManagerEnabled          = $true
-                    WitnessDirectory                 = 'C:\FSW'
+                    WitnessDirectory                 = 'C:\Witness'
                     WitnessServer                    = $witness1
                 }
 
                 if (!([System.String]::IsNullOrEmpty($witness2)))
                 {
                     $dagTestParams.Add('AlternateWitnessServer', $witness2)
-                    $dagTestParams.Add('AlternateWitnessDirectory', 'C:\FSW')
+                    $dagTestParams.Add('AlternateWitnessDirectory', 'C:\Witness')
                     $dagExpectedGetResults.Add('AlternateWitnessServer', $witness2)
-                    $dagExpectedGetResults.Add('AlternateWitnessDirectory', 'C:\FSW')
+                    $dagExpectedGetResults.Add('AlternateWitnessDirectory', 'C:\Witness')
                 }
 
                 $serverVersion = Get-ExchangeVersionYear
@@ -192,7 +192,8 @@ if ($null -ne $adModule)
 
                 # Add this server as a DAG member
                 Get-Module MSFT_xExch* | Remove-Module -ErrorAction SilentlyContinue
-                Import-Module -Name (Join-Path -Path $script:moduleRoot -ChildPath (Join-Path -Path 'DSCResources' -ChildPath (Join-Path -Path "MSFT_xExchDatabaseAvailabilityGroupMember" -ChildPath "MSFT_xExchDatabaseAvailabilityGroupMember.psm1")))
+
+                Import-Module -Name (Join-Path -Path $script:moduleRoot -ChildPath (Join-Path -Path 'source' -ChildPath (Join-Path -Path 'DSCResources' -ChildPath (Join-Path -Path "MSFT_xExchDatabaseAvailabilityGroupMember" -ChildPath "MSFT_xExchDatabaseAvailabilityGroupMember.psm1"))))
 
                 $dagMemberTestParams = @{
                     MailboxServer     = $env:COMPUTERNAME
@@ -234,7 +235,7 @@ if ($null -ne $adModule)
 
                     # Test the DAG again, with props that only take effect once there are members
                     Get-Module MSFT_xExch* | Remove-Module -ErrorAction SilentlyContinue
-                    Import-Module -Name (Join-Path -Path $script:moduleRoot -ChildPath (Join-Path -Path 'DSCResources' -ChildPath (Join-Path -Path "$($script:DSCResourceName)" -ChildPath "$($script:DSCResourceName).psm1")))
+                    Import-Module -Name (Join-Path -Path $script:moduleRoot -ChildPath (Join-Path -Path 'source' -ChildPath (Join-Path -Path 'DSCResources' -ChildPath (Join-Path -Path "$($script:DSCResourceName)" -ChildPath "$($script:DSCResourceName).psm1"))))
 
                     $dagExpectedGetResults.DatacenterActivationMode = 'DagOnly'
 
@@ -250,7 +251,7 @@ if ($null -ne $adModule)
 
                     # Create a new DAG database
                     Get-Module MSFT_xExch* | Remove-Module -ErrorAction SilentlyContinue
-                    Import-Module -Name (Join-Path -Path $script:moduleRoot -ChildPath (Join-Path -Path 'DSCResources' -ChildPath (Join-Path -Path "MSFT_xExchMailboxDatabase" -ChildPath "MSFT_xExchMailboxDatabase.psm1")))
+                    Import-Module -Name (Join-Path -Path $script:moduleRoot -ChildPath (Join-Path -Path 'source' -ChildPath (Join-Path -Path 'DSCResources' -ChildPath (Join-Path -Path "MSFT_xExchMailboxDatabase" -ChildPath "MSFT_xExchMailboxDatabase.psm1"))))
 
                     $dagDBTestParams = @{
                         Name                = $testDBName
@@ -276,7 +277,7 @@ if ($null -ne $adModule)
 
                     # Add DB Copy
                     Get-Module MSFT_xExch* | Remove-Module -ErrorAction SilentlyContinue
-                    Import-Module -Name (Join-Path -Path $script:moduleRoot -ChildPath (Join-Path -Path 'DSCResources' -ChildPath (Join-Path -Path "MSFT_xExchMailboxDatabaseCopy" -ChildPath "MSFT_xExchMailboxDatabaseCopy.psm1")))
+                    Import-Module -Name (Join-Path -Path $script:moduleRoot -ChildPath (Join-Path -Path 'source' -ChildPath (Join-Path -Path 'DSCResources' -ChildPath (Join-Path -Path "MSFT_xExchMailboxDatabaseCopy" -ChildPath "MSFT_xExchMailboxDatabaseCopy.psm1"))))
 
                     $dagDBCopyTestParams = @{
                         Identity                        = $testDBName

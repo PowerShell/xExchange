@@ -1465,6 +1465,39 @@ try
             }
         }
 
+        # Describe 'xExchangeHelper\Remove-RemoteExchangeSession' -Tag 'Helper' {
+        #     # Override functions which have non-Mockable parameter types
+        #     function Remove-PSSession
+        #     {
+        #     }
+
+        #     AfterEach {
+        #         Assert-VerifiableMock
+        #     }
+
+        #     Context 'When Remove-RemoteExchangeSession is called' {
+        #         It 'Should remove the session' {
+        #             Mock -CommandName Remove-PSSession -Verifiable
+
+        #             Remove-RemoteExchangeSession
+        #         }
+        #     }
+        # }
+        # Describe 'xExchangeHelper\Remove-RemoteExchangeSession' -Tag 'Helper' {
+        #     # Override functions which have non-Mockable parameter types
+        #     function Remove-PSSession {}
+        #     AfterEach {
+        #         Assert-VerifiableMock
+        #     }
+        #     Context 'When Remove-RemoteExchangeSession is called and sessions exist' {
+        #         It 'Should remove the sessions' {
+        #             Mock -CommandName Get-ExistingRemoteExchangeSession -Verifiable -MockWith { return 'SomeSession' }
+        #             Mock -CommandName Remove-PSSession -Verifiable
+        #             Remove-RemoteExchangeSession
+        #         }
+        #     }
+        # }
+
         Describe 'xExchangeHelper\Compare-StringToString' -Tag 'Helper' {
             $trueCaseInsensitiveCases = @(
                 @{
