@@ -23,7 +23,6 @@ Import-Module -Name (Join-Path -Path $script:moduleRoot -ChildPath (Join-Path -P
 <#
     .SYNOPSIS
         Removes the specified Mailbox Database and associated files
-
     .PARAMETER Database
         The name of the Mailbox Database to remove.
 #>
@@ -102,7 +101,7 @@ if ($exchangeInstalled)
             RetainDeletedItemsUntilBackup = $false
             IssueWarningQuota             = '27 MB'
             ProhibitSendQuota             = '1GB'
-            ProhibitSendReceiveQuota      = '1,5 GB'
+            ProhibitSendReceiveQuota      = '1.5 GB'
             RecoverableItemsQuota         = 'unlimited'
             RecoverableItemsWarningQuota  = '1000448'
         }
@@ -160,9 +159,9 @@ if ($exchangeInstalled)
         $testParams.RetainDeletedItemsUntilBackup = $true
         $testParams.IssueWarningQuota = '28 MB'
         $testParams.ProhibitSendQuota = '2GB'
-        $testParams.ProhibitSendReceiveQuota = '2,5 GB'
+        $testParams.ProhibitSendReceiveQuota = '2.5 GB'
         $testParams.RecoverableItemsQuota = '2 GB'
-        $testParams.RecoverableItemsWarningQuota = '1,5 GB'
+        $testParams.RecoverableItemsWarningQuota = '1.5 GB'
 
         $expectedGetResults.AllowFileRestore = $false
         $expectedGetResults.CalendarLoggingQuota = '30 MB (31,457,280 bytes)'

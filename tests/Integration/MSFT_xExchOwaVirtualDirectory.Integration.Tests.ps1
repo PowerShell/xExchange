@@ -75,6 +75,7 @@ if ($exchangeInstalled)
             WSSAccessOnPrivateComputersEnabled     = $true
             LogonFormat                            = 'PrincipalName'
             DefaultDomain                          = 'contoso.local'
+            SetPhotoEnabled                        = $true
         }
 
         $expectedGetResults = @{
@@ -100,6 +101,7 @@ if ($exchangeInstalled)
             WSSAccessOnPrivateComputersEnabled     = $true
             LogonFormat                            = 'PrincipalName'
             DefaultDomain                          = 'contoso.local'
+            SetPhotoEnabled                        = $true
         }
 
         Test-TargetResourceFunctionality -Params $testParams -ContextLabel 'Set standard parameters' -ExpectedGetResults $expectedGetResults
@@ -129,6 +131,7 @@ if ($exchangeInstalled)
             WSSAccessOnPrivateComputersEnabled     = $false
             LogonFormat                            = 'FullDomain'
             DefaultDomain                          = ''
+            SetPhotoEnabled                        = $true
         }
 
         $expectedGetResults = @{
@@ -154,6 +157,7 @@ if ($exchangeInstalled)
             WSSAccessOnPrivateComputersEnabled     = $false
             LogonFormat                            = 'FullDomain'
             DefaultDomain                          = ''
+            SetPhotoEnabled                        = $true
         }
 
         Test-TargetResourceFunctionality -Params $testParams -ContextLabel 'Try with the opposite of each property value' -ExpectedGetResults $expectedGetResults

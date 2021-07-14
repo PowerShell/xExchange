@@ -93,7 +93,8 @@ function Test-TargetResourceFunctionality
             foreach ($key in $ExpectedGetResults.Keys)
             {
                 $getContainsKey = $getResult.ContainsKey($key)
-
+                $getSetValue = ""
+                $getExpectedValue = ""
                 It "Get-TargetResource: Contains Key: $($key)" {
                     $getContainsKey | Should -Be $true
                 }
@@ -118,6 +119,8 @@ function Test-TargetResourceFunctionality
                             }
                             default
                             {
+                                $getSetValue = $getResult[$key]
+                                $getExpectedValue = $ExpectedGetResults[$key]
                                 $getValueMatchesForKey = ($getResult[$key] -eq $ExpectedGetResults[$key])
                             }
                         }
@@ -126,8 +129,7 @@ function Test-TargetResourceFunctionality
                     {
                         $getValueMatchesForKey = $false
                     }
-
-                    It "Get-TargetResource: Value Matches for Key: $($key)" {
+                    It "Get-TargetResource: Value Matches for Key: $($key) value: $getSetValue expected: $getExpectedValue" {
                         $getValueMatchesForKey | Should -Be $true
                     }
                 }

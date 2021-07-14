@@ -20,7 +20,8 @@ function Remove-ExistingPSSession
     param ()
 
     Context 'Remove existing Remote PowerShell Session to Exchange' {
-        Remove-RemoteExchangeModule
+        # Remove-RemoteExchangeModule
+        Remove-RemoteExchangeSession
 
         $Session = $null
         $Session = Get-ExistingRemoteExchangeSession
@@ -56,7 +57,8 @@ if ($exchangeInstalled)
         }
 
         # Remove sessions again before continuing
-        Remove-ExistingPSSession
+        # Remove-ExistingPSSession
+        Remove-RemoteExchangeSession
 
         # Simulate that setup is running (using notepad.exe), and try to establish a new session. This should fail
         Context 'When requesting a new Remote PowerShell Session to Exchange and Exchange setup is running' {

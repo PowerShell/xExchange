@@ -116,7 +116,11 @@ function Get-TargetResource
 
         [Parameter()]
         [System.String]
-        $DefaultDomain
+        $DefaultDomain,
+
+        [Parameter()]
+        [System.Boolean]
+        $SetPhotoEnabled
     )
 
     Write-FunctionEntry -Parameters @{
@@ -155,6 +159,7 @@ function Get-TargetResource
             WindowsAuthentication                  = [System.Boolean] $OwaVdir.WindowsAuthentication
             WSSAccessOnPublicComputersEnabled      = [System.Boolean] $OwaVdir.WSSAccessOnPublicComputersEnabled
             WSSAccessOnPrivateComputersEnabled     = [System.Boolean] $OwaVdir.WSSAccessOnPrivateComputersEnabled
+            SetPhotoEnabled                        = [System.Boolean] $OwaVdir.SetPhotoEnabled
         }
     }
 
@@ -276,7 +281,11 @@ function Set-TargetResource
 
         [Parameter()]
         [System.String]
-        $DefaultDomain
+        $DefaultDomain,
+
+        [Parameter()]
+        [System.Boolean]
+        $SetPhotoEnabled
     )
 
     Write-FunctionEntry -Parameters @{
@@ -423,7 +432,11 @@ function Test-TargetResource
 
         [Parameter()]
         [System.String]
-        $DefaultDomain
+        $DefaultDomain,
+
+        [Parameter()]
+        [System.Boolean]
+        $SetPhotoEnabled
     )
 
     Write-FunctionEntry -Parameters @{
@@ -562,6 +575,11 @@ function Test-TargetResource
         {
             $testResults = $false
         }
+
+        if (!(Test-ExchangeSetting -Name 'SetPhotoEnabled' -Type 'Boolean' -ExpectedValue $SetPhotoEnabled -ActualValue $OwaVdir.SetPhotoEnabled -PSBoundParametersIn $PSBoundParameters -Verbose:$VerbosePreference))
+        {
+            $testResults = $false
+        }
     }
 
     return $testResults
@@ -683,7 +701,11 @@ function Get-OwaVirtualDirectoryInternal
 
         [Parameter()]
         [System.String]
-        $DefaultDomain
+        $DefaultDomain,
+
+        [Parameter()]
+        [System.Boolean]
+        $SetPhotoEnabled
     )
 
     Remove-FromPSBoundParametersUsingHashtable -PSBoundParametersIn $PSBoundParameters -ParamsToKeep 'Identity', 'DomainController'

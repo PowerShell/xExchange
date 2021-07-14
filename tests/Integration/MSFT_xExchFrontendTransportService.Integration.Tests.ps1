@@ -56,7 +56,7 @@ if ($exchangeInstalled)
          InternalDNSProtocolOption               = 'any'
          InternalDNSServers                      = ''
          IntraOrgConnectorProtocolLoggingLevel   = 'Verbose'
-         MaxConnectionRatePerMinute              = '72000'
+         MaxConnectionRatePerMinute              = '1200'
          ReceiveProtocolLogMaxAge                = '30.00:00:00'
          ReceiveProtocolLogMaxDirectorySize      = '250MB'
          ReceiveProtocolLogMaxFileSize           = '10 MB'

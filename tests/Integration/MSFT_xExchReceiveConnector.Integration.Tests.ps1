@@ -56,9 +56,8 @@ if ($exchangeInstalled)
             Enabled                                 = $true
             EnhancedStatusCodesEnabled              = $true
             ExtendedProtectionPolicy                = 'none'
-            Fqdn                                    = "$($env:computername).pester.com"
+            Fqdn                                    = "$($env:computername).exp.com"
             LongAddressesEnabled                    = $false
-            MaxAcknowledgementDelay                 = '00:00:00'
             MaxHeaderSize                           = '128KB'
             MaxHopCount                             = '60'
             MaxInboundConnection                    = '5000'
@@ -115,9 +114,8 @@ if ($exchangeInstalled)
             Enabled                                 = $true
             EnhancedStatusCodesEnabled              = $true
             ExtendedProtectionPolicy                = 'none'
-            Fqdn                                    = "$($env:computername).pester.com"
+            Fqdn                                    = "$($env:computername).exp.com"
             LongAddressesEnabled                    = $false
-            MaxAcknowledgementDelay                 = '00:00:00'
             MaxHeaderSize                           = '128 KB (131,072 bytes)'
             MaxHopCount                             = '60'
             MaxInboundConnection                    = '5000'
@@ -145,6 +143,13 @@ if ($exchangeInstalled)
             TlsDomainCapabilities                   = 'contoso.com:AcceptOorgProtocol'
             TransportRole                           = 'FrontendTransport'
         }
+        # -MaxAcknowledgementDelay
+        # This parameter isn't used by Microsoft Exchange Server 2016. It's only used by Microsoft Exchange 2010 servers in a coexistence environment.
+        if ($serverVersion -in '2010')
+        {
+            $testParams.Add('MaxAcknowledgementDelay', '00:00:00')
+            $expectedGetResults.Add('MaxAcknowledgementDelay', '00:00:00')
+        }
 
         Test-TargetResourceFunctionality -Params $testParams -GetParams $getParams -ContextLabel 'Create Receive Connector' -ExpectedGetResults $expectedGetResults
 
@@ -160,21 +165,24 @@ if ($exchangeInstalled)
         # Modify configuration
         $testParams.Ensure = 'Absent'
         $getParams.Ensure = 'Absent'
-        $expectedGetResults = @{
-            Ensure = 'Absent'
-        }
 
-        Test-TargetResourceFunctionality -Params $testParams -GetParams $getParams -ContextLabel 'Remove Receive Connector' -ExpectedGetResults $expectedGetResults
+        # Here they try to add a new expectResult but, the real test are change one attribute from the expectresult
+        # $expectedGetResults = @{
+        #     Ensure = 'Absent'
+        # }
+        # I change to this
+        $expectedGetResults.Ensure = 'Absent'
+        Test-TargetResourceFunctionality -Params $testParams -ContextLabel 'Remove Receive Connector' -ExpectedGetResults $expectedGetResults
 
         # Try to remove the same receive connector again. This should not cause any errors.
         $testStartTime = [DateTime]::Now
 
-        Test-TargetResourceFunctionality -Params $testParams -GetParams $getParams -ContextLabel 'Attempt Removal of Already Removed Receive Connector' -ExpectedGetResults $expectedGetResults
+        Test-TargetResourceFunctionality -Params $testParams -ContextLabel 'Attempt Removal of Already Removed Receive Connector' -ExpectedGetResults $expectedGetResults
 
         Context 'When Get-ReceiveConnector is called and the connector is absent' {
             It 'Should not cause an error to be logged in the event log' {
                 Get-EventLog -LogName 'MSExchange Management' -After $testStartTime -ErrorAction SilentlyContinue | `
-                    Where-Object -FilterScript { $_.Message -like '*Cmdlet failed. Cmdlet Get-ReceiveConnector, parameters -Identity*' } |`
+                    Where-Object -FilterScript {$_.Message -like '*Cmdlet failed. Cmdlet Get-ReceiveConnector, parameters -Identity*'} |`
                     Should -Be $null
             }
         }

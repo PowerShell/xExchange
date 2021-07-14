@@ -74,6 +74,7 @@
         'Get-RemoteExchangeSession',
         'New-RemoteExchangeSession',
         'Import-RemoteExchangeModule',
+        'Remove-RemoteExchangeSession',
         'Remove-RemoteExchangeModule',
         'Test-ExchangePresent',
         'Get-ExchangeVersionYear',

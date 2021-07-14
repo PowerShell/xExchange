@@ -32,6 +32,7 @@ class MSFT_xExchOwaVirtualDirectory : OMI_BaseResource
     [Write] Boolean WSSAccessOnPrivateComputersEnabled;
     [Write, ValueMap{"FullDomain", "UserName", "PrincipalName"}, Values{"FullDomain", "UserName", "PrincipalName"}] String LogonFormat;
     [Write] String DefaultDomain;
+    [Write] Boolean SetPhotoEnabled;
 };
 
 
